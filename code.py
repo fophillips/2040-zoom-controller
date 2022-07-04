@@ -18,16 +18,19 @@ layout = KeyboardLayoutUS(keyboard)
 
 keymap = {
     0: (Keycode.CONTROL, Keycode.COMMAND, Keycode.LEFT_SHIFT, Keycode.GRAVE_ACCENT),
-    1: (Keycode.CONTROL, Keycode.COMMAND, Keycode.LEFT_SHIFT, Keycode.V),
+    4: (Keycode.CONTROL, Keycode.COMMAND, Keycode.LEFT_SHIFT, Keycode.V),
+    8: (Keycode.CONTROL, Keycode.COMMAND, Keycode.LEFT_SHIFT, Keycode.L),
 }
 
 # The colour to set the keys when pressed, yellow.
 RED = [255, 0, 0]
 GREEN = [0, 255, 0]
-WHITE = [123, 123, 123]
+YELLOW = [255, 255, 0]
+WHITE = [123, 123, 100]
 
 MIC_KEY = keys[0]
-CAM_KEY = keys[1]
+CAM_KEY = keys[4]
+LIGHT_KEY = keys[8]
 
 
 def process_input(input_bytes):
@@ -55,9 +58,11 @@ def toggle_led(key):
         key.set_led(*RED)
     elif key.rgb == RED:
         key.set_led(*GREEN)
+    elif key.rgb == YELLOW:
+        key.set_led(*WHITE)
 
 
-for key in (MIC_KEY, CAM_KEY):
+for key in (MIC_KEY, CAM_KEY, LIGHT_KEY):
 
     @keybow.on_press(key)
     def press_handler(key):
@@ -68,6 +73,11 @@ for key in (MIC_KEY, CAM_KEY):
         except IndexError:
             pass
 
+LIGHT_KEY.set_led(*YELLOW)
+
+@keybow.on_release(LIGHT_KEY)
+def reset_light_key(key):
+        key.set_led(*YELLOW)
 
 while True:
     # Always remember to call keybow.update()!

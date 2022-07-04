@@ -5,16 +5,13 @@
 - assembled [Keybow 2040](https://shop.pimoroni.com/products/keybow-2040)
 - Python 3.6+ for the serial script
 - Zoom app for Mac
+- [Hammerspoon](http://hammerspoon.org/)
 
 ## How to use
 
-### Build client-side app
+### Set up hammerspoon
 
-- Open `Control Zoom.scpt` in Script Editor
-- Update path to Python and `serial_script.py` (AFAIK these need to be fully qualified paths)
-- File > Export as Application with `Stay open after run handler` checked (see screenshot)
-- Run `Control Zoom.app` and allow Accessibility permissions
-- Close `Control Zoom.app` and open again, it should now run silently
+- copy content of init.lua to Hammerspoon
 
 ### Install board code
 
@@ -37,7 +34,7 @@
 
 ## How does it work
 
-The keybow is configured to do send specific keyboard shortcuts on press, these are registered as global shortcuts in Zoom allowing you to use them no matter what app is in the foreground. The Applescript reads the Zoom menu bar icon menu to determine if the audio and video are active, it then calls `serial_script.py` which sends commands over serial to the 2040.
+The keybow is configured to do send specific keyboard shortcuts on press, these are registered as global shortcuts in Zoom allowing you to use them no matter what app is in the foreground. The Hammerspoon script reads the Zoom menu bar icon menu to determine if the audio and video are active, it then calls `serial_script.py` which sends commands over serial to the 2040.
 
 ## Attribution
 
