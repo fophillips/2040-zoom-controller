@@ -1,4 +1,4 @@
-# Keybow 2040 Zoom controller for Mac
+# Keybow 2040 Zoom and Google Meet controller for Mac
 
 ## Requirements
 
@@ -6,6 +6,7 @@
 - Python 3.6+ for the serial script
 - Zoom app for Mac
 - [Hammerspoon](http://hammerspoon.org/)
+- Google Meet running in Chrome with `View > Developer > Allow JavaScript from Apple Events` enabled
 
 ## How to use
 
@@ -34,7 +35,9 @@
 
 ## How does it work
 
-The keybow is configured to do send specific keyboard shortcuts on press, these are registered as global shortcuts in Zoom allowing you to use them no matter what app is in the foreground. The Hammerspoon script reads the Zoom menu bar icon menu to determine if the audio and video are active, it then calls `serial_script.py` which sends commands over serial to the 2040.
+The keybow is configured to do send specific keyboard shortcuts on press, these are registered as global shortcuts in Zoom allowing you to use them no matter what app is in the foreground. 
+
+The Hammerspoon script reads the Zoom menu and the Google Chrome DOM to determine if the audio and video are active, it then calls `serial_script.py` which sends commands over serial to the 2040.
 
 ## Attribution
 
