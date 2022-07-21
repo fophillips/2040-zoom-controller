@@ -71,7 +71,7 @@ function leaveCall()
     end
 end
 
-hs.hotkey.bind({"ctrl", "cmd", "shift"}, "E", leaveMeet)
+hs.hotkey.bind({"ctrl", "cmd", "shift"}, "E", leaveCall)
 
 hs.hotkey.bind({"ctrl", "cmd", "shift"}, "L", function()
     local response = hs.http.asyncGet("http://10.0.0.21:9123/elgato/lights", {}, function(status, body, headers)

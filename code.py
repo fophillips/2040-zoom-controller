@@ -65,7 +65,7 @@ def toggle_led(key):
         key.set_led(*WHITE)
 
 
-for key in (MIC_KEY, CAM_KEY, LIGHT_KEY):
+for key in (MIC_KEY, CAM_KEY, LIGHT_KEY, LEAVE_KEY):
 
     @keybow.on_press(key)
     def press_handler(key):
