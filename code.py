@@ -20,6 +20,7 @@ keymap = {
     0: (Keycode.CONTROL, Keycode.COMMAND, Keycode.LEFT_SHIFT, Keycode.GRAVE_ACCENT),
     4: (Keycode.CONTROL, Keycode.COMMAND, Keycode.LEFT_SHIFT, Keycode.V),
     8: (Keycode.CONTROL, Keycode.COMMAND, Keycode.LEFT_SHIFT, Keycode.L),
+    12: (Keycode.CONTROL, Keycode.COMMAND, Keycode.LEFT_SHIFT, Keycode.E),
 }
 
 # The colour to set the keys when pressed, yellow.
@@ -27,10 +28,12 @@ RED = [255, 0, 0]
 GREEN = [0, 255, 0]
 YELLOW = [255, 255, 0]
 WHITE = [123, 123, 100]
+PURPLE = [128, 0, 128]
 
 MIC_KEY = keys[0]
 CAM_KEY = keys[4]
 LIGHT_KEY = keys[8]
+LEAVE_KEY = keys[12]
 
 
 def process_input(input_bytes):
@@ -74,6 +77,7 @@ for key in (MIC_KEY, CAM_KEY, LIGHT_KEY):
             pass
 
 LIGHT_KEY.set_led(*YELLOW)
+LEAVE_KEY.set_led(*PURPLE)
 
 @keybow.on_release(LIGHT_KEY)
 def reset_light_key(key):

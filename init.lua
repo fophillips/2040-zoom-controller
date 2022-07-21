@@ -34,6 +34,45 @@ function getMeetStatus()
     return output
 end
 
+function leaveMeet()
+    log.f("Leaving meet")
+    hs.osascript.javascript([[
+        (function(){
+            var chrome = Application("Google Chrome");
+            var tabIndex = -1;
+            for(win of chrome.windows()) {
+                tabIndex = win.tabs().findIndex(t => t.name().match(/^Meet - /));
+            }
+
+            if(tabIndex !== -1) {
+                var tab = win.tabs()[tabIndex];
+            } else {
+                return -1;
+            }
+
+            tab.execute({javascript: "document.querySelector('[aria-label=\"Leave call\"]').click()"})
+        })();
+    ]])
+end
+
+function leaveZoom()
+    log.f("Leaving zoom")
+    local zoom = hs.application("zoom.us")
+    hs.eventtap.keyStroke({"cmd"}, "W", 0, zoom)
+end
+
+function leaveCall()
+    if getMeetStatus() ~= -1 then
+        leaveMeet()
+    end
+
+    if getZoomStatus() ~= -1 then
+        leaveZoom()
+    end
+end
+
+hs.hotkey.bind({"ctrl", "cmd", "shift"}, "E", leaveMeet)
+
 hs.hotkey.bind({"ctrl", "cmd", "shift"}, "L", function()
     local response = hs.http.asyncGet("http://10.0.0.21:9123/elgato/lights", {}, function(status, body, headers)
         local settings = hs.json.decode(body)
@@ -51,21 +90,27 @@ hs.hotkey.bind({"ctrl", "cmd", "shift"}, "L", function()
 end)
 
 hs.hotkey.bind({"ctrl", "cmd", "shift"}, "\\", function()
-    if getMeetStatus() == -1 then
-        return
+    if getMeetStatus() ~= -1 then
+        local chrome = hs.application("Google Chrome")
+        hs.eventtap.keyStroke({"cmd"}, "d", 0, chrome)
     end
 
-    local chrome = hs.application("Google Chrome")
-    hs.eventtap.keyStroke({"cmd"}, "d", 0, chrome)
+    if getZoomStatus() ~= -1 then
+        local zoom = hs.application("zoom.us")
+        hs.eventtap.keyStroke({"cmd", "shift"}, "A", 0, zoom)
+    end
 end)
 
 hs.hotkey.bind({"ctrl", "cmd", "shift"}, "V", function()
-    if getMeetStatus() == -1 then
-        return
+    if getMeetStatus() ~= -1 then
+        local chrome = hs.application("Google Chrome")
+        hs.eventtap.keyStroke({"cmd"}, "e", 0, chrome)
     end
 
-    local chrome = hs.application("Google Chrome")
-    hs.eventtap.keyStroke({"cmd"}, "e", 0, chrome)
+    if getZoomStatus() ~= -1 then
+        local zoom = hs.application("zoom.us")
+        hs.eventtap.keyStroke({"cmd", "shift"}, "V", 0, zoom)
+    end
 end)
 
 function sendSerial(status)
@@ -133,4 +178,5 @@ function updateStatus()
     end
 end
 
-t = hs.timer.doEvery(1, updateStatus)
+t = hs.timer.doEvery(3, updateStatus)
+t2 = hs.timer.doEvery(3600, hs.relaunch)
