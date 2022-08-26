@@ -165,6 +165,44 @@ function setController(status)
     end
 end
 
+local function enterFocus()
+    hs.osascript.applescript(
+      [[
+  set checkboxName to "Do Not
+  Disturb"
+  tell application "System Events"
+    click menu bar item "Control Center" of menu bar 1 of application process "ControlCenter"
+    delay 0.1
+    set isChecked to (value of checkbox checkboxName of group 1 of group 1 of window "Control Center" of application process "ControlCenter")
+    if not (isChecked as boolean) then
+      click checkbox checkboxName of group 1 of group 1 of window "Control Center" of application process "ControlCenter"
+      delay 0.1
+    end if
+    click menu bar item "Control Center" of menu bar 1 of application process "ControlCenter"
+  end tell
+      ]]
+    )
+end
+
+local function exitFocus()
+    hs.osascript.applescript(
+      [[
+  set checkboxName to "Do Not
+  Disturb"
+  tell application "System Events"
+    click menu bar item "Control Center" of menu bar 1 of application process "ControlCenter"
+    delay 0.1
+    set isChecked to (value of checkbox checkboxName of group 1 of group 1 of window "Control Center" of application process "ControlCenter")
+    if (isChecked as boolean) then
+      click checkbox checkboxName of group 1 of group 1 of window "Control Center" of application process "ControlCenter"
+      delay 0.1
+    end if
+    click menu bar item "Control Center" of menu bar 1 of application process "ControlCenter"
+  end tell
+      ]]
+    )
+end
+
 function updateStatus()
     local meet = getMeetStatus()
     local zoom = getZoomStatus()
@@ -175,6 +213,12 @@ function updateStatus()
         setController(meet)
     else
         setController(zoom)
+    end
+
+    if meet == -1 and zoom == -1 then
+        hs.shortcuts.run("Meeting off")
+    else
+        hs.shortcuts.run("Meeting on")
     end
 end
 
