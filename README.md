@@ -26,6 +26,11 @@
 - Select the shortcut for "Start/stop" and press key 1 on the keypad
 - Select Enable Global Shortcut
 
+### Setup Shortcuts
+
+- Create a Shortcut called "Meeting on" that turns on Do Not Disturb
+- Create a Shortcut called "Meeting off" that turns off Do No Disturb
+
 ### Usage
 
 - When Zoom is closed or no conference is in progress the LEDs will show white
